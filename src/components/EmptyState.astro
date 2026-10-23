@@ -1,0 +1,8 @@
+---
+interface Props { message: string }
+const { message } = Astro.props;
+---
+<p class="empty glass">{message}</p>
+<style>
+  .empty { padding: 22px 24px; color: var(--muted); max-width: 32rem; }
+</style>

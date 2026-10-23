@@ -1,27 +1,20 @@
-# Ruchi Sharma: website design prototype
+# Ruchi Sharma | Writer and Creative Director
 
-Static design prototype for ruchisharma.com (Writer, Creative Director, Speaker, Mentor).
-One `index.html` plus an `img/` folder. No build step.
+Astro 7 static site. Content lives in `src/content`, edited by file or from `/admin` (Decap CMS).
 
-## Preview locally
+## Commands
+- `npm install`
+- `npm run dev` : local server
+- `npm run build` : static output in `dist/`
+- `npx astro check` : types and template checks
 
-Open `index.html` in a browser, or run `python3 -m http.server` in this folder.
+## Content
+- `work`, `press`, `notes`, `logos` : home page sections (one Markdown file each)
+- `writing`, `screenplays` : get their own pages. Set `draft: false` to publish.
+- `src/data/*.json` : career, awards, impact, site text
 
-## Deploy to Netlify
+## Deploy (Netlify)
+Build command `npm run build`, publish `dist`. Set `PUBLIC_ALLOW_INDEXING=true` only when the site goes live on the real domain. Until then it stays `noindex`.
 
-Drag this folder onto https://app.netlify.com/drop, or connect the repo and set:
-
-- Build command: none
-- Publish directory: `.`
-
-The page carries `noindex, nofollow` because it is a prototype. Remove that meta tag when the real site goes live.
-
-## What is in the prototype
-
-- Floating glass nav, photo hero, light theme by default with a dark toggle
-- Selected work gallery with filters and lightbox, career, awards and juries, press, notes, client logos
-- "Beyond advertising": Writing, Screenplays and Author placeholders (70% advertising and branding, 30% creative)
-
-## Fonts
-
-Archivo (headings) and Plus Jakarta Sans (text), loaded from Google Fonts.
+## Admin panel
+`/admin` uses the GitHub backend. It needs an OAuth app (Netlify: Site settings, Access control, OAuth) before login works.

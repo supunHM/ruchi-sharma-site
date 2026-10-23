@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Author" description="The book by Ruchi Sharma, coming soon." breadcrumbs={[{ name: 'Author', path: '/author/' }]}>
+  <section class="page">
+    <p class="label">Beyond advertising</p>
+    <h1>Author</h1>
+    <p class="lede">A home for the book. Details, excerpts and where to read it will live here.</p>
+    <a class="btn" href="/#contact">Get in touch</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .page { padding-block: clamp(48px, 7vw, 96px); }
+  h1 { font-size: clamp(2.4rem, 6vw, 4rem); margin: 10px 0 20px; }
+  .lede { max-width: 30em; margin-bottom: 26px; font-size: 1.15rem; }
+</style>

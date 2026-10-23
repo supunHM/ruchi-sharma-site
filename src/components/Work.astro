@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const filters = [
+  { id: 'all', label: 'All' },
+  { id: 'jury', label: 'Juries & councils' },
+  { id: 'stage', label: 'Stage & press' },
+];
+---
+
+<section class="band" id="work" aria-labelledby="work-h">
+  <div class="band-head">
+    <div>
+      <h2 id="work-h">Selected work</h2>
+      <p class="note">Jury, council, stage and press moments. Select an image to enlarge it.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Filter selected work">
+      {
+        filters.map((f) => (
+          <button type="button" class="chip" data-filter={f.id} aria-pressed={f.id === 'all'}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="gallery">
+    {
+      items.map((it) => (
+        <figure class="shot" data-cat={it.data.category}>
+          <button class="open" type="button" aria-label={`Enlarge: ${it.data.title}`}>
+            <Image
+              src={it.data.image}
+              alt={it.data.alt}
+              widths={[360, 560, 800]}
+              sizes="(min-width: 1000px) 320px, (min-width: 620px) 45vw, 92vw"
+              loading="lazy"
+            />
+          </button>
+          <figcaption>{it.data.title}</figcaption>
+        </figure>
+      ))
+    }
+  </div>
+
+  <dialog id="lightbox" aria-labelledby="lb-cap">
+    <div class="bar">
+      <p id="lb-cap"></p>
+      <button class="chip" type="button" id="lb-close">Close</button>
+    </div>
+    <img id="lb-img" alt="" />
+  </dialog>
+</section>
+
+<style>
+  .band {
+    padding-block: clamp(40px, 5.5vw, 72px);
+    border-top: 1px solid var(--line);
+  }
+  .band-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    margin-bottom: 30px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .gallery {
+    columns: 3 280px;
+    column-gap: 26px;
+  }
+  .shot {
+    margin: 0 0 26px;
+    break-inside: avoid;
+  }
+  .shot[hidden] {
+    display: none;
+  }
+  .open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .shot :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r);
+    background: var(--surface);
+  }
+  figcaption {
+    margin-top: 9px;
+    font-size: 0.74rem;
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  dialog {
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: var(--surface);
+    color: var(--fg);
+    padding: 14px;
+    max-width: min(94vw, 1040px);
+    max-height: 94vh;
+    overflow: auto;
+  }
+  dialog::backdrop {
+    background: rgb(8 8 6 / 0.78);
+  }
+  .bar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  #lb-cap {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  dialog img {
+    display: block;
+    max-width: 100%;
+    max-height: 72vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    border-radius: var(--r);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .shot :global(img) {
+      transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .open:hover :global(img) {
+      transform: scale(1.03);
+    }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('work')!;
+  const shots = root.querySelectorAll<HTMLElement>('.shot');
+  const chips = root.querySelectorAll<HTMLButtonElement>('.chip[data-filter]');
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      shots.forEach((s) => (s.hidden = f !== 'all' && s.dataset.cat !== f));
+    }),
+  );
+
+  const dlg = document.getElementById('lightbox') as HTMLDialogElement;
+  const big = document.getElementById('lb-img') as HTMLImageElement;
+  const cap = document.getElementById('lb-cap')!;
+  root.querySelectorAll<HTMLButtonElement>('.open').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const img = btn.querySelector('img')!;
+      big.src = img.currentSrc || img.src;
+      big.alt = img.alt;
+      cap.textContent = btn.closest('figure')!.querySelector('figcaption')!.textContent;
+      dlg.showModal();
+    }),
+  );
+  document.getElementById('lb-close')!.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => e.target === dlg && dlg.close());
+</script>

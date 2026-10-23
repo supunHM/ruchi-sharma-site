@@ -1,0 +1,12 @@
+---
+import impact from '../data/impact.json';
+import RowList from './RowList.astro';
+---
+
+<section class="split" aria-labelledby="impact-h">
+  <div>
+    <h2 id="impact-h">Impact and advisory</h2>
+    <p class="note">{impact.intro}</p>
+  </div>
+  <RowList rows={impact.rows} />
+</section>

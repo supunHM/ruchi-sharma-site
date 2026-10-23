@@ -1,0 +1,61 @@
+---
+import data from '../data/recognition.json';
+import RowList from './RowList.astro';
+---
+
+<section class="split" id="recognition" aria-labelledby="rec-h">
+  <div><h2 id="rec-h">Awards and juries</h2></div>
+  <div>
+    <p class="honours reveal">{data.honours}</p>
+    <RowList rows={data.awards} />
+    <p class="label sub">International jury roles</p>
+    <ul class="jury reveal">
+      {
+        data.jury.map((j) => (
+          <li>
+            <span>{j.name}</span>
+            <span class="yr">{j.years}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .honours {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 26px;
+    text-wrap: balance;
+  }
+  .sub {
+    margin: 34px 0 12px;
+  }
+  .jury {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0 36px;
+  }
+  .jury li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .yr {
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+</style>

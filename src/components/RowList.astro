@@ -1,0 +1,60 @@
+---
+/** Two-column list of "who" and "what", used for awards and advisory roles. */
+interface Props {
+  rows: { org: string; what: string }[];
+}
+const { rows } = Astro.props;
+---
+
+<ul class="rows reveal">
+  {
+    rows.map((r) => (
+      <li>
+        <span class="org">{r.org}</span>
+        <span class="what">{r.what}</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style is:global>
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rows li {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 4px 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .rows li:first-child {
+    padding-top: 0;
+  }
+  .rows li:last-child {
+    border-bottom: 0;
+  }
+  .rows .org {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .rows .what {
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  @media (max-width: 620px) {
+    .rows li {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

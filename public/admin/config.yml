@@ -1,0 +1,37 @@
+backend:
+  name: github
+  repo: supunHM/ruchi-sharma-site
+  branch: main
+
+media_folder: src/assets/uploads
+public_folder: ../../assets/uploads
+
+collections:
+  - name: writing
+    label: Writing
+    folder: src/content/writing
+    extension: md
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Short description (max 180), widget: string }
+      - { name: date, label: Date, widget: datetime }
+      - { name: cover, label: Cover image, widget: image, required: false }
+      - { name: coverAlt, label: Cover image description, widget: string, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Body, widget: markdown }
+  - name: screenplays
+    label: Screenplays
+    folder: src/content/screenplays
+    extension: md
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: logline, label: Logline (max 240), widget: text }
+      - { name: genre, label: Genre, widget: string, required: false }
+      - { name: year, label: Year, widget: number, value_type: int, required: false }
+      - { name: pdf, label: Link to PDF, widget: string, required: false }
+      - { name: draft, label: Draft, widget: boolean, default: true }
+      - { name: body, label: Notes, widget: markdown, required: false }

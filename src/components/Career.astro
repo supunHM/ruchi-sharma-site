@@ -1,0 +1,73 @@
+---
+import career from '../data/career.json';
+---
+
+<section class="split" id="career" aria-labelledby="career-h">
+  <div>
+    <h2 id="career-h">Career</h2>
+    <p class="note">Newest first. Full résumé and CV on the current site.</p>
+  </div>
+  <ol class="jobs">
+    {
+      career.jobs.map((j) => (
+        <li class="job reveal">
+          <span class="when">{j.when}</span>
+          <div>
+            <p class="org">{j.org}</p>
+            <p class="role">{j.role}</p>
+          </div>
+          <p class="desc">{j.desc}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .jobs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .job {
+    display: grid;
+    grid-template-columns: 132px minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 6px 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .job:first-child {
+    padding-top: 0;
+  }
+  .job:last-child {
+    border-bottom: 0;
+  }
+  .when {
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .org {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .role {
+    font-size: 0.95rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .desc {
+    line-height: 1.5;
+  }
+  @media (max-width: 620px) {
+    .job {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

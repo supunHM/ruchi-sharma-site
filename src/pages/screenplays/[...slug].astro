@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('screenplays', ({ data }) => !data.draft);
+  return items.map((item) => ({ params: { slug: item.id }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+
+<BaseLayout
+  title={item.data.title}
+  description={item.data.logline}
+  breadcrumbs={[
+    { name: 'Screenplays', path: '/screenplays/' },
+    { name: item.data.title, path: `/screenplays/${item.id}/` },
+  ]}
+  jsonLd={[
+    {
+      '@type': 'CreativeWork',
+      name: item.data.title,
+      abstract: item.data.logline,
+      genre: item.data.genre,
+      dateCreated: item.data.year ? String(item.data.year) : undefined,
+      author: { '@type': 'Person', name: 'Ruchi Sharma' },
+    },
+  ]}
+>
+  <article class="page">
+    <p class="label"><a href="/screenplays/">← Screenplays</a></p>
+    <h1>{item.data.title}</h1>
+    <p class="logline">{item.data.logline}</p>
+    {item.data.pdf && <a class="btn" href={item.data.pdf} target="_blank" rel="noopener noreferrer">Read the screenplay ↗</a>}
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page { padding-block: clamp(48px, 7vw, 96px); }
+  .label a { text-decoration: none; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin: 14px 0 10px; }
+  .logline { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; max-width: 30em; margin-bottom: 24px; }
+  .prose { margin-top: 32px; }
+</style>

@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmptyState from '../../components/EmptyState.astro';
+
+const items = await getCollection('screenplays', ({ data }) => !data.draft);
+---
+
+<BaseLayout
+  title="Screenplays"
+  description="Screenplays by Ruchi Sharma."
+  breadcrumbs={[{ name: 'Screenplays', path: '/screenplays/' }]}
+>
+  <section class="page">
+    <p class="label">Beyond advertising</p>
+    <h1>Screenplays</h1>
+    {
+      items.length === 0 ? (
+        <EmptyState message="The first screenplay is coming soon." />
+      ) : (
+        <ul class="list">
+          {items.map((s) => (
+            <li>
+              <a href={`/screenplays/${s.id}/`}>
+                <time>{[s.data.genre, s.data.year].filter(Boolean).join(' · ')}</time>
+                <span class="t">{s.data.title}</span>
+                <span class="d">{s.data.logline}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</BaseLayout>

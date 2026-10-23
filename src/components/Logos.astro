@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('logos')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="split" aria-labelledby="logos-h">
+  <div>
+    <h2 id="logos-h">Brands</h2>
+    <p class="note">A selection of the brands and organisations she has worked with.</p>
+  </div>
+  <ul class="tiles">
+    {
+      items.map((l) => (
+        <li class="reveal">
+          <Image src={l.data.image} alt={l.data.title} widths={[160, 320]} sizes="120px" loading="lazy" />
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .tiles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  li {
+    display: grid;
+    place-items: center;
+    height: 96px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: #fff;
+  }
+  li :global(img) {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+</style>

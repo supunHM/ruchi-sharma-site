@@ -1,0 +1,180 @@
+---
+import { navLinks, site } from '../utils/site';
+---
+
+<header class="top" id="top">
+  <a class="wordmark" href="/" aria-label={`${site.name}, home`}>{site.name}</a>
+  <button type="button" class="menu" id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav aria-label="Primary" id="nav">
+    <ul>
+      {navLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      <li><button type="button" class="theme" id="theme-toggle" aria-pressed="false">Dark</button></li>
+      <li><a class="talk" href="/#contact">Let’s talk</a></li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .top {
+    position: sticky;
+    top: 12px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 7px 7px 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    -webkit-backdrop-filter: saturate(1.5) blur(16px);
+    backdrop-filter: saturate(1.5) blur(16px);
+    box-shadow: 0 12px 32px -20px rgba(23, 19, 14, 0.45);
+  }
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: -0.005em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .wordmark::before {
+    content: 'RS';
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r);
+    background: var(--fg);
+    color: var(--bg);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.84rem;
+    font-weight: 500;
+  }
+  nav a,
+  .theme {
+    display: block;
+    padding: 8px 14px;
+    border-radius: var(--r);
+    color: var(--muted);
+    text-decoration: none;
+  }
+  nav a:hover,
+  .theme:hover {
+    background: color-mix(in srgb, var(--fg) 7%, transparent);
+    color: var(--fg);
+  }
+  nav a.talk {
+    background: var(--fg);
+    color: var(--bg);
+    padding: 9px 18px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+  nav a.talk:hover {
+    background: var(--mark);
+    color: var(--on-mark);
+  }
+  .theme,
+  .menu {
+    font: inherit;
+    font-weight: 500;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+  .menu {
+    display: none;
+    font-size: 0.84rem;
+    color: var(--fg);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 8px 14px;
+  }
+
+  @media (max-width: 860px) {
+    .top {
+      flex-wrap: wrap;
+    }
+    .menu {
+      display: inline-block;
+      margin-left: auto;
+    }
+    nav {
+      display: none;
+      width: 100%;
+      order: 3;
+    }
+    .top.open nav {
+      display: block;
+    }
+    ul {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 6px 0 4px;
+    }
+    nav a,
+    .theme {
+      width: 100%;
+      text-align: left;
+    }
+    nav a.talk {
+      margin: 4px 0 0;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  const menuBtn = document.getElementById('menu-btn');
+  const bar = document.querySelector('.top');
+
+  function applyTheme(mode: 'light' | 'dark') {
+    if (mode === 'dark') root.dataset.theme = 'dark';
+    else delete root.dataset.theme;
+    if (toggle) {
+      toggle.textContent = mode === 'dark' ? 'Light' : 'Dark';
+      toggle.setAttribute('aria-pressed', String(mode === 'dark'));
+    }
+  }
+
+  applyTheme(root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+  toggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try {
+      localStorage.setItem('rs-theme', next);
+    } catch {
+      /* storage can be blocked; the theme still changes for this visit */
+    }
+  });
+
+  function setMenu(open: boolean) {
+    bar?.classList.toggle('open', open);
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.textContent = open ? 'Close' : 'Menu';
+    }
+  }
+  menuBtn?.addEventListener('click', () => setMenu(!bar?.classList.contains('open')));
+  bar?.querySelectorAll('nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+</script>

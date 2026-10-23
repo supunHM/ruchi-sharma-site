@@ -1,0 +1,68 @@
+---
+import { site } from '../utils/site';
+---
+
+<div class="marquee" aria-label="Brands she has worked on">
+  <div class="track">
+    <ul>{site.brands.map((b) => <li>{b}</li>)}</ul>
+    <ul aria-hidden="true">{site.brands.map((b) => <li>{b}</li>)}</ul>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    margin-top: 28px;
+    border-block: 1px solid var(--line);
+    padding-block: 20px;
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: marquee 55s linear infinite;
+  }
+  .marquee:hover .track {
+    animation-play-state: paused;
+  }
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    padding-right: 34px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  li::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--mark);
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .track {
+      animation: none;
+      flex-wrap: wrap;
+      width: auto;
+    }
+    ul[aria-hidden='true'] {
+      display: none;
+    }
+  }
+</style>

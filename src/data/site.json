@@ -1,0 +1,74 @@
+{
+  "name": "Ruchi Sharma",
+  "jobTitle": "Writer and Creative Director",
+  "org": "HumanSense",
+  "location": "Colombo, Sri Lanka",
+  "roles": [
+    "Writer",
+    "Creative Director",
+    "Speaker",
+    "Mentor"
+  ],
+  "tagline": "Writer, Creative Director, Speaker and Mentor. Founder and CCO of HumanSense.",
+  "description": "Ruchi Sharma is an awarded Writer and Creative Director, Founder and CCO of HumanSense in Colombo. Brand storytelling that builds emotional connections.",
+  "hero": {
+    "pill": "Colombo · Founder & CCO, HumanSense",
+    "headlineStart": "Brand storytelling that builds",
+    "headlineEmphasis": "emotional connections",
+    "cta": "See the work",
+    "statLabels": [
+      "leadership roles across agency networks",
+      "markets, New York to Sri Lanka",
+      "jury, stage and press highlights"
+    ],
+    "markets": "5"
+  },
+  "about": [
+    {
+      "label": "The work",
+      "text": "She understands the strategic complexities, cultural diversity and value of brands across global, regional and local structures, and implements a unified voice across all communication platforms.",
+      "big": true
+    },
+    {
+      "label": "The values",
+      "text": "Ruchi is a staunch supporter of DEI values. She has studied Human Rights and co-created the first digitally-led global campaign on Human Rights for the UNHRC.",
+      "big": false
+    }
+  ],
+  "brands": [
+    "Head & Shoulders",
+    "Fonterra",
+    "Cornetto",
+    "Pepsodent",
+    "Close Up",
+    "Colgate",
+    "United Nations",
+    "Nestlé",
+    "Energizer",
+    "OMO",
+    "Citra",
+    "Velvet",
+    "UNHCR"
+  ],
+  "contact": {
+    "heading": "Let’s talk.",
+    "sentence": "Writing, creative direction, speaking and mentoring.",
+    "email": "ruchigucci@gmail.com",
+    "phone": "+94 766 444 428",
+    "cvUrl": "https://ruchisharma.com/whyrdams/2024/01/Ruchi-Sharma_CV_2024.pdf",
+    "socials": [
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/ruchis/"
+      },
+      {
+        "label": "Instagram",
+        "url": "https://www.instagram.com/ruchi.gucci/"
+      },
+      {
+        "label": "Twitter",
+        "url": "https://twitter.com/ruchi_gucci"
+      }
+    ]
+  }
+}
